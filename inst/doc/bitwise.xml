@@ -1,0 +1,104 @@
+<article xmlns:r="http://www.r-project.org">
+
+<section>
+<title>Bitwise Constants and Flags</title>
+
+<para>
+The ideas is that we can have symbolic constants as R objects and that
+these can be AND'd and OR'ed together like they can in C.
+We'll take an example from the Qt library which has a flag type named
+PolicyFlag defined as 
+<c:code>
+enum PolicyFlag {
+     GrowFlag = 1,
+     ExpandFlag = 2,
+     ShrinkFlag = 4,
+     IgnoreFlag = 8
+}
+</c:code>
+The idea is that we can OR these together to get different
+combinations identified in a single value.
+For example, to indicate that something can both expand and shrink,
+we would use 
+<c:code> 
+ExpandFlag | ShringFlag
+</c:code>
+So we want to be able to use this as we would in C
+such as
+<r:code>
+QSizePolicy(GrowFlag | ExpandFlag | ShrinkFlag, ExpandFlag)
+</r:code>
+But the | operator in R would give a very different result:
+<r:code>
+ 2 | 4
+<r:output>
+TRUE
+</r:output>
+</r:code>
+So we want to define classes to represent these types of constants
+and for which we can define such an operator.
+</para>
+<para>
+We also provide an alternative, equivalent syntax
+<r:code>
+c("GrowFlag", "ExpandFlag", "ShrinkFlag")
+</r:code>
+which can be coerced to the appropriate type with the command
+<r:code>
+asBitwiseValue(c("GrowFlag", "ExpandFlag", "ShrinkFlag"), PolicyValues, "Policy", S3 = TRUE)
+</r:code>
+</para>
+
+<para>
+We want to be able to support both S3 and S4 versions of these classes.
+Ordinarily we would use S4 exclusively. However, since we use this
+to programmatically generate R-level enumerations from C/C++ code,
+we can end up with 100s of these and they can become very slow to load.
+S3 representations are much more lightweight and, while less structured, we
+can make up for this within programmatically generated code.
+</para>
+
+<para>
+We "define" a basic S3 class S3BitwiseValue.
+<r:code>
+setOldClass("S3BitwiseValue")
+</r:code>
+This is the basic class. When we have an actual value,
+we will want to use a different class in order to identify
+where it can be used. 
+We will give an S3 class "label" such as "Policy".
+</para>
+
+<para>
+Next we need to be able to define the individual values.
+The function <r:func>BitwiseValue</r:func> is used for this:
+<r:code>
+GrowFlag = BitwiseValue(1, "GrowFlag", class = "Policy", S3 = TRUE)
+</r:code>
+We are using the same R variable <r:var>GrowFlag</r:var> as the
+name given as the second argument in the call because we want
+to be able to refer to this value symbolically in R as a variable.
+We can of course assign it to any variable:
+<r:code>
+x = GrowFlag
+</r:code>
+We can do this for each of the four values
+<r:code>
+GrowFlag   = BitwiseValue(1, "GrowFlag", class = "Policy", S3 = TRUE)
+ExpandFlag = BitwiseValue(2, "ExpandFlag", class = "Policy", S3 = TRUE)
+ShrinkFlag = BitwiseValue(4, "ShrinkFlag", class = "Policy", S3 = TRUE)
+IgnoreFlag = BitwiseValue(8, "IgnoreFlag", class = "Policy", S3 = TRUE)
+</r:code>
+
+We can define an S3 class for Policy as
+<r:code>
+setOldClass(c("Policy", "S3BitwiseValue"))
+</r:code>
+
+</para>
+
+
+
+</section>
+
+</article>

@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html> <head>
+<link rel="stylesheet" href="http://www.omegahat.org/OmegaTech.css">
+<meta name="description" content="R run-time functions for
+programmatically generated code to access native routines"/>
+<meta name="keywords" content="R, RGCCTUFFI, RGCCTranslationUnit, native code"/>
+<title>RAutoGenRunTime: run-time support for programmatically
+generated interfaces to native routines</title>
+</head>
+
+<body>
+<h1>The RAutoGenRunTime package</h1>
+<p align=right>Last Release:
+ <a href="@TAR_FILE@"> @VERSION@</a> (<font color="red">@DATE@</font>)
+
+
+<p>
+This package provides functions and classes to support
+interfaces to native routines in C and C++ that
+are programmatically generated.
+The generated code requires supporting helper functions to simplify
+the generated code and this package provides those functions.
+
+<p>
+In most cases, this package is merely a required/dependent package
+that other packages require. In that respect, it will be
+install automatically via <code>install.packages</code>.
+
+<p>
+
+
+<h2>Documentation</h2> There are help pages for all of the functions.
+For the most part, users of this package do not need to concern
+themselves with the details of the functions in this package as the
+programmatically generated code provides, by design, an opaque
+interface to native code.  However, the functionality in this package
+can be reused by others interfacing to native code.
+
+
+
+<hr>
+<address><a href="http://www.stat.ucdavis.edu/~duncan/">Duncan Temple Lang</a>
+<a href=mailto:duncan@wald.ucdavis.edu>&lt;duncan@wald.ucdavis.edu&gt;</a></address>
+<!-- hhmts start -->
+Last modified: Wed Jan 26 09:25:48 PST 2011
+<!-- hhmts end -->
+</body> </html>

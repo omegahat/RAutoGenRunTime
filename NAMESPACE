@@ -1,0 +1,96 @@
+useDynLib(RAutoGenRunTime)
+
+
+exportClass("RNativeReference",  "RCReference", "RC++Reference",
+             "RC++ReferenceUseName", "RC++StructReference", "RCStructReference")
+#exportClass("RCStructReference")
+exportClass("RNativeRoutineReference")
+
+exportClass("NativeSymbol")
+
+exportClass("CStruct")
+exportClass("CStruct") #  "C++Struct")
+exportClass("ExternalArray", "ExternalArrayWithLength", "ExternalPrimitiveTypeArrayWithLength", 
+            "ExternalTwoDimensionalArray", "ExternalMultiDimensionalArray")
+exportClass("charRefRef")
+exportClass("VariableReference")
+
+# only exported if createRRoutineReference() routine is needed
+#  exportClass("CRoutineRef")
+
+export(asReference)
+exportMethods("asReference")
+
+export(Free)
+export(validateCopy)
+export(addFinalizer)
+exportMethods("addFinalizer")
+
+exportMethods("coerce", "$", "[[", "[", "dim", "[<-")
+
+export(valueOf)
+export(checkMethodsNumArgs)
+
+#export(collectOutResults)
+
+exportClasses("SymbolicConstant", "EnumValue", "BitwiseValue", "EnumDef", "EnumerationValue")
+export(asEnumValue, asBitwiseValue)
+export(GenericEnumValue)
+exportMethods("show")
+
+# Casting of C++ types.
+export(cast)
+exportMethods("cast")
+export("C++CastValues")
+exportClass('C++Cast')
+
+export(bitlist)
+
+export(BitwiseValue)
+exportMethods("|", "c", "&")
+export(makeSymbolicVariables)
+export(EnumDef)
+export(GenericEnumValue)
+
+export(copyToR)
+
+#export(getRMethods, setRMethods)
+# Not yet: exportClass("RDerivedClass")
+
+# Currently not exported, but may be needed. Only not exported due to documentation.
+# export(getNativeMethodIds)
+# export(getNativeMethodTemplate)
+export(makeDerivedMethodsList)
+
+
+export(getDerivedClassMethods)
+exportMethods(getDerivedClassMethods)
+export(setDerivedClassMethods)
+exportMethods(setDerivedClassMethods)
+
+#export(getInterfaceInfo, getInterfaceMethods, getInterfaceFields)
+
+
+export(asFunctionPointer)
+
+export(duplicate)
+exportMethods(duplicate)
+
+
+# exportClass("CallRoutine")
+
+export(asUnsigned)
+export(fixArrayLength)
+
+
+exportMethods("length", "lapply") # sapply later when we don't have to duplicate the code in base.
+
+exportClass(intPtr, doublePtr, longPtr, shortPtr, floatPtr, voidPtr)
+
+export(isNativeNull)
+
+exportClass(CNULLValue)
+export(CNULLValue)
+
+
+export(isNilPointer)

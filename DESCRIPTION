@@ -1,0 +1,20 @@
+Package: RAutoGenRunTime
+Version: 0.3-0
+Title: Run-time support for automated interfaces to R
+Author: Duncan Temple Lang
+Depends: bitops, methods
+Maintainer: Duncan Temple Lang <duncan@wald.ucdavis.edu>
+Description: The package provides classes, methods, functions and 
+  compiled C code used by automatically generated interfaces 
+  from R to C/C++ code using the RGCCTranslationUnit from the 
+  omegahat.org project.
+  Many of the functions can also be used in other dynamic/programmatic interfaces,
+  e.g. Rffi and RGCCTUFFI., and generally when interacting with native code.
+  These functions are separate from the RGCCTranslationUnit package as that is used
+  to programmatically generate the binding/wrapper code. This can be done once
+  without actually invoking any of the native routines in a target native library.
+  This package, however, is used at run-time. So we don't need the RGCCTranslationUnit
+  package at that moment in time, but do need the functions that programmatically code
+  refers to.
+License: BSD
+URL: http://www.omegahat.org/RAutoGenRunTime

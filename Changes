@@ -1,0 +1,10 @@
+Version 0.3-0
+
+  * Passes R CMD check
+ 
+  * More documentation
+
+  * Some addditions to enhance functions
+
+  * Some bug fixes
+
