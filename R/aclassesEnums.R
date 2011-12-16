@@ -1,7 +1,7 @@
 # EnumValue is typically for individual values.
 # Bitwise can support a vector.
 # These are for values. The definition is separate.
-setClass("SymbolicConstant", contains = "integer")
+setClass("SymbolicConstant", representation = c(names = "character"), contains = "integer")
 setClass("EnumValue", contains = "SymbolicConstant", prototype = as.integer(NA))
 setClass("BitwiseValue", contains = "SymbolicConstant", prototype = as.integer(NA))
 
