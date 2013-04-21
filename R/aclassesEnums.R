@@ -8,7 +8,7 @@ setClass("BitwiseValue", contains = "SymbolicConstant", prototype = as.integer(N
 
 
 ##################################
-# IGNOREo
+# IGNORE
 # These 3 and the next classes look like versions of the same idea.
 if(FALSE) {
       setClass("SymbolicConstantsDefinition", representation(name = "character"))

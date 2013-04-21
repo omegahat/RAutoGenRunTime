@@ -33,7 +33,7 @@ typedef enum {NATIVE_ROUTINE, R_FUNCTION} CallableType;
 int convertFromRToInt(SEXP obj);
 SEXP convertDoubleToR(double x);
 SEXP convertIntToR(int x);
-//SEXP convertIntArrayToR(const int *x, int len, int start, int end);
+SEXP convertIntArrayToR(const int *x, int len, int start, int end);
 //SEXP convertUnsignedIntArrayToR(const unsigned int *x, int len);
 
 char ** getRStringArray(SEXP);
@@ -113,11 +113,10 @@ SEXP R_isNativeNull(SEXP ext);
 SEXP R_addressOfPointer(SEXP ext);
 
 
-SEXP convertDoubleArrayToR(int len, const double *x, int copy, int start, int end);
-SEXP convertCharArrayToR(int dim, const char *x, int copy, int start, int end);
+SEXP convertDoubleArrayToR(const double *x, int len, int start, int end);
+SEXP convertCharArrayToR(const char *x, int len, int start, int end);
 
 void convertRCharacterToCharArray(char *dest, SEXP r_value, int array_len);
-
 
 SEXP  createRRoutineReference(void *, const char * const routineName,  const char * const returnTypeName, unsigned int numParams, ...);
 

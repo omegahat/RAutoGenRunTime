@@ -161,7 +161,7 @@ convertDoubleToR(double x)
 }
 
 SEXP
-convertDoubleArrayToR(int len, const double *x, int copy, int start, int end)
+convertDoubleArrayToR(const double *x, int dim, int start, int end)
 {
     SEXP ans;
     int i, num;
@@ -172,6 +172,21 @@ convertDoubleArrayToR(int len, const double *x, int copy, int start, int end)
 	REAL(ans)[i] = x[i + start];
     return(ans);
 }
+
+SEXP
+convertDoubleArrayToR_full(int len, const double *x, int copy, int start, int end)
+{
+    SEXP ans;
+    int i, num;
+    
+    num = end  - start + 1;
+    ans = allocVector(REALSXP, num);
+    for(i = 0; i < num ; i++)
+	REAL(ans)[i] = x[i + start];
+    return(ans);
+}
+
+
 
 #define MIN(a, b)  ((a) < (b) ? (a) : (b))
 
@@ -187,7 +202,7 @@ convertRCharacterToCharArray(char *dest, SEXP r_value, int array_len)
 }
 
 SEXP
-convertCharArrayToR(int dim, const char *x, int copy, int start, int end)
+convertCharArrayToR_full(int dim, const char *x, int copy, int start, int end)
 {
     SEXP ans;
     int i, num;
@@ -204,8 +219,47 @@ convertCharArrayToR(int dim, const char *x, int copy, int start, int end)
     return(ans);
 }
 
-
 #if 0
+SEXP
+convertCharArrayToR(const char *x, int dim, int start, int end)
+{
+    SEXP ans;
+    int i, num;
+    char buf[2];
+
+    buf[1] = '\0';
+    num = end - start + 1;
+    PROTECT(ans = allocVector(STRSXP, num));
+    for(i = 0; i < num ; i++) {
+        buf[0] = x[i + start];
+	SET_STRING_ELT(ans, i, mkChar(buf));
+    }
+    UNPROTECT(1);
+    return(ans);
+}
+#else
+SEXP
+convertCharArrayToR(const char *x, int dim, int start, int end)
+{
+    SEXP ans;
+    int num;
+    char *buf;
+    num = end - start + 1;
+    buf = R_alloc(sizeof(char), num);
+    if(!buf) {
+	PROBLEM "cannot allocate space for a string"
+	    ERROR;
+    }
+    memcpy(buf, x, num);
+    return(ScalarString(mkChar(buf)));
+}
+#endif
+
+
+
+
+
+#if 1
 /* Why are these commented out? Because we generate them programmatically.
   
    convertDoubleArrayToR.
@@ -215,11 +269,11 @@ convertIntArrayToR(const int *x, int len, int start, int end)
 {
     SEXP ans;
     int i;
-
     
-    ans = allocVector(INTSXP, len);
+    PROTECT(ans = allocVector(INTSXP, len));
     for(i = 0; i < len ; i++)
 	INTEGER(ans)[i] = x[i];
+    UNPROTECT(1);
     return(ans);
 }
 
@@ -230,9 +284,10 @@ convertUnsignedIntArrayToR(const unsigned int *x, int len)
     SEXP ans;
     int i;
     
-    ans = allocVector(REALSXP, len);
+    PROTECT(ans = allocVector(REALSXP, len));
     for(i = 0; i < len ; i++)
 	REAL(ans)[i] = x[i];
+    UNPROTECT(1);
     return(ans);
 }
 #endif

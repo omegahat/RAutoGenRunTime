@@ -63,8 +63,14 @@ function(val, name = names(val),
          
          val = defValues[i]
       }
-      
+
+      if(!is.integer(val) && is.na(as.integer(val))) {
+         # the value is too big for an integer in R.
+        warning("BitwiseValue ", val, " doesn't fit into integer value")
+      }
+          
       ans =  new(class, val)
+      
       names(ans) = name
     }
     ans
