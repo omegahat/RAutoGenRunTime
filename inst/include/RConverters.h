@@ -102,6 +102,8 @@ typedef enum {
     CONST
 } CastType;
 
+SEXP R_bitwise_enum_convert(int, int*, const char *const*, int num, const char *className);
+
 
 Rboolean IS_S4_INSTANCE(SEXP  obj, const char *className);
 

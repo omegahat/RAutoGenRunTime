@@ -617,3 +617,29 @@ R_isNilPointer(SEXP r_ref)
     void *val = GET_EXT_PTR_REF(r_ref);
     return(ScalarLogical( val ? FALSE : TRUE  ));
 }
+
+
+SEXP
+R_bitwise_enum_convert(int val, int *values, const char *const* valNames, int num, const char *className)
+{
+    int i;
+    int nels = 0;
+    for(i = 0; i < num; i++) {
+	if(val | values[i])
+	    nels++;
+    }
+
+    SEXP ans,names;
+    PROTECT(ans = NEW_INTEGER(nels));
+    PROTECT(names = NEW_CHARACTER(nels));
+    for(i = 0; i < num; i++) {
+	if(val | values[i]) {
+	    INTEGER(ans)[i] = values[i];
+	    SET_STRING_ELT(names, i, mkChar(valNames[i]));
+	}
+    }
+    SET_NAMES(ans, names);
+//XXX create class.
+    UNPROTECT(2);
+    return(ans);
+}
