@@ -65,17 +65,29 @@ SEXP R_createNativeReference(const void * const val, const char *className, cons
 #define R_GET_REF_TYPE(arg, class) \
     (class *) R_getNativeReference(arg, #class, #class)
 
-
 #define R_MAKE_REF_TYPE(arg, class) \
      R_createNativeReference(arg, #class, #class)
 
+
+#define DEREF_PTR(x, type)  ((type) R_getNativeReference((x), #type, #type))
 
 #define DEREF_REF(x, type) * ((type *) R_getNativeReference((x), #type, #type))
 
 #define DEREF_REF_PTR(x, type) ((type *) R_getNativeReference((x), #type, #type))
 
 
+#define R_MAKE(decl) \
+ SEXP R_make##decl (decl type) { \
+    decl *ans = (decl *) malloc(sizeof(decl)); \
+    *ans = type; \
+    return(R_createRef(ans, #decl)); \
+    }
+
+
+
 SEXP R_makeNames(const char *names[], int len);
+
+SEXP R_makeEnumValue(int val, const char *elName, const char *className);
 
 
 

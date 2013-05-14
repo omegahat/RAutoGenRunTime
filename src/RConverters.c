@@ -118,11 +118,13 @@ R_getNativeReference(SEXP arg, const char *type, const char *tag)
         if(strcmp(CHAR(STRING_ELT(ancestors, i)), tag) == 0)
   	   break;
     }
+#ifndef R_REF_NO_CLASS_MATCH_ERROR
     if(i == n) {
       PROBLEM "Looking for %s, got %s",
 	      tag, elTag != R_NilValue ? CHAR(PRINTNAME(elTag)) : "NULL"
       ERROR;
     }
+#endif
  }
 
  ans = R_ExternalPtrAddr(el);
@@ -641,5 +643,37 @@ R_bitwise_enum_convert(int val, int *values, const char *const* valNames, int nu
     SET_NAMES(ans, names);
 //XXX create class.
     UNPROTECT(2);
+    return(ans);
+}
+
+
+
+
+SEXP
+R_makeEnumValue(int val, const char *elName, const char *className)
+{
+    SEXP ans, klass;
+    #if defined(USE_S4_ENUMS)
+    
+    SEXP tmp;
+    PROTECT(klass = MAKE_CLASS(className));
+    PROTECT(ans = NEW(klass));
+    PROTECT(tmp = ScalarInteger(val));
+    SET_NAMES(tmp, mkString(elName));
+    ans = SET_SLOT(ans, Rf_install(".Data"), tmp);
+    UNPROTECT(3);
+    
+    #else
+    
+    PROTECT(ans = ScalarInteger(val));
+    SET_NAMES(ans, mkString(elName));
+    PROTECT(klass = NEW_CHARACTER(2));
+    SET_STRING_ELT(klass, 0, mkChar("CXLanguageKind"));
+    SET_STRING_ELT(klass, 1, mkChar("EnumValue"));
+    SET_CLASS(ans, klass);
+    UNPROTECT(2);
+    
+    #endif
+    
     return(ans);
 }
