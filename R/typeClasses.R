@@ -10,7 +10,8 @@ setClass("voidPtr", contains = "RC++Reference")
 setMethod("[", "doublePtr",
           function(x, i, j, ..., drop = TRUE) {
              index = c(i, if(!missing(j)) j, ...)
-             .Call("R_getDoublePtr_els", x, as.integer(index - 1))
+             
+             .Call("R_getDoublePtr_els", x@ref, as.integer(index - 1))
           })
 
 setMethod("[<-", "doublePtr",

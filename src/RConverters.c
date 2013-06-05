@@ -34,7 +34,7 @@ R_make_var_reference(void *ref, const char * const type)
     SEXP klass = MAKE_CLASS("VariableReference");
     PROTECT(klass);
     PROTECT(ans = NEW(klass));
-    fprintf(stderr, "variable reference %p\n", ref);
+
     SET_SLOT(ans, Rf_install("ref"), R_createNativeReference(ref, type, type));
     UNPROTECT(2);
 
@@ -243,7 +243,6 @@ convertCharArrayToR(const char *x, int dim, int start, int end)
 SEXP
 convertCharArrayToR(const char *x, int dim, int start, int end)
 {
-    SEXP ans;
     int num;
     char *buf;
     num = end - start + 1;

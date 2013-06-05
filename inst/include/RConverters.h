@@ -2,7 +2,7 @@
 #define RAUTO_CONVERTERS_H
 
 /* For now! */
-#define DEBUG_R_RUNTIME 1
+//#define DEBUG_R_RUNTIME 1
 
 #include <stdlib.h>
 
@@ -75,7 +75,7 @@ SEXP R_createNativeReference(const void * const val, const char *className, cons
 
 #define DEREF_REF_PTR(x, type) ((type *) R_getNativeReference((x), #type, #type))
 
-
+    /* Add finalizer */
 #define R_MAKE(decl) \
  SEXP R_make##decl (decl type) { \
     decl *ans = (decl *) malloc(sizeof(decl)); \

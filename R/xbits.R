@@ -3,8 +3,13 @@ function(val, defValues, className, prefix = NA)
 {
   if(is.character(val)) {
     i = pmatch(val, names(defValues))
-    if(!is.na(prefix) && any(is.na(i))) {
-      i[is.na(i)] = pmatch(paste(prefix, val[i], sep = ""), names(defValues))
+    if(any(is.na(i)) && (length(prefix) > 1 || !is.na(prefix))) {
+      for(p in prefix) {
+        ids = paste(p, val[is.na(i)], sep = "")
+        i[is.na(i)] = pmatch(ids, names(defValues))
+        if(!any(is.na(i)))
+          break
+      }
     }
   } else {
         # check for a single scalar value
