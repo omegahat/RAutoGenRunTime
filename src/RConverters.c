@@ -414,7 +414,8 @@ R_listToRefArray(SEXP r_els, SEXP r_type)
     int i, n;
     void *tmp;
     RPointerList *ans;
-    
+
+    type = CHAR(STRING_ELT(r_type, 0));
     n = GET_LENGTH(r_els);
     ans = (RPointerList *) malloc(sizeof(RPointerList));
     ans->els = (void **) malloc(sizeof(void *) * n);
