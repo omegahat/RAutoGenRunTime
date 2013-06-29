@@ -2,7 +2,7 @@
 #define RAUTO_CONVERTERS_H
 
 /* For now! */
-#define DEBUG_R_RUNTIME 1
+//#define DEBUG_R_RUNTIME 1
 
 #include <stdlib.h>
 
@@ -65,17 +65,31 @@ SEXP R_createNativeReference(const void * const val, const char *className, cons
 #define R_GET_REF_TYPE(arg, class) \
     (class *) R_getNativeReference(arg, #class, #class)
 
-
 #define R_MAKE_REF_TYPE(arg, class) \
      R_createNativeReference(arg, #class, #class)
 
+
+#define GET_REF(val, type) (type *)  R_getNativeReference((val), #type, #type)
+
+#define DEREF_PTR(x, type)  ((type) R_getNativeReference((x), #type, #type))
 
 #define DEREF_REF(x, type) * ((type *) R_getNativeReference((x), #type, #type))
 
 #define DEREF_REF_PTR(x, type) ((type *) R_getNativeReference((x), #type, #type))
 
+    /* Add finalizer */
+#define R_MAKE(decl) \
+ SEXP R_make##decl (decl type) { \
+    decl *ans = (decl *) malloc(sizeof(decl)); \
+    *ans = type; \
+    return(R_createRef(ans, #decl)); \
+    }
+
+
 
 SEXP R_makeNames(const char *names[], int len);
+
+SEXP R_makeEnumValue(int val, const char *elName, const char *className);
 
 
 
@@ -114,13 +128,27 @@ SEXP R_duplicateArray(SEXP r_ref, SEXP r_size, SEXP r_elementDup);
 SEXP R_isNativeNull(SEXP ext);
 SEXP R_addressOfPointer(SEXP ext);
 
+void copyRVectorToDoubleArray(SEXP r_vec, double *dest, int numEls);
 
+
+const char **getCharArrayPtr(SEXP r_value);
 SEXP convertDoubleArrayToR(const double *x, int len, int start, int end);
 SEXP convertCharArrayToR(const char *x, int len, int start, int end);
 
 void convertRCharacterToCharArray(char *dest, SEXP r_value, int array_len);
 
 SEXP  createRRoutineReference(void *, const char * const routineName,  const char * const returnTypeName, unsigned int numParams, ...);
+
+
+#ifndef LOCAL_CREATE_REF
+SEXP R_createReference(void *ptr, const char * const className, const char * tag);
+#endif
+
+#ifndef R_createRef
+#define R_createRef(val, type) R_createReference(val, type, type)
+#endif
+
+
 
 #ifdef __cplusplus
 }

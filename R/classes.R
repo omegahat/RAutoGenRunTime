@@ -349,3 +349,10 @@ setMethod("[[", c("RCStructReference", "character", "missing"),
               eval(substitute(x$id, list(id = i)), sys.frame(sys.nframe()))
            })
 
+
+
+
+setClass("size_t", contains = "numeric")
+setAs("integer", "size_t", function(from) new("size_t", as.numeric(from))) # what about the names.
+setAs("numeric", "size_t", function(from) new("size_t", from))
+

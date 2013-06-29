@@ -3,6 +3,7 @@ Version: 0.3-0
 Title: Run-time support for automated interfaces to R
 Author: Duncan Temple Lang
 Depends: bitops, methods
+Imports: bitops
 Maintainer: Duncan Temple Lang <duncan@wald.ucdavis.edu>
 Description: The package provides classes, methods, functions and 
   compiled C code used by automatically generated interfaces 

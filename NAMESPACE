@@ -1,4 +1,5 @@
 useDynLib(RAutoGenRunTime)
+import(bitops)
 
 
 exportClass("RNativeReference",  "RCReference", "RC++Reference",
@@ -94,3 +95,7 @@ export(CNULLValue)
 
 
 export(isNilPointer)
+
+
+exportClass("size_t")
+

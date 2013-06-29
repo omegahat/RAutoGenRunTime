@@ -34,7 +34,7 @@ R_make_var_reference(void *ref, const char * const type)
     SEXP klass = MAKE_CLASS("VariableReference");
     PROTECT(klass);
     PROTECT(ans = NEW(klass));
-    fprintf(stderr, "variable reference %p\n", ref);
+
     SET_SLOT(ans, Rf_install("ref"), R_createNativeReference(ref, type, type));
     UNPROTECT(2);
 
@@ -118,11 +118,13 @@ R_getNativeReference(SEXP arg, const char *type, const char *tag)
         if(strcmp(CHAR(STRING_ELT(ancestors, i)), tag) == 0)
   	   break;
     }
+#ifndef R_REF_NO_CLASS_MATCH_ERROR
     if(i == n) {
       PROBLEM "Looking for %s, got %s",
 	      tag, elTag != R_NilValue ? CHAR(PRINTNAME(elTag)) : "NULL"
       ERROR;
     }
+#endif
  }
 
  ans = R_ExternalPtrAddr(el);
@@ -190,6 +192,28 @@ convertDoubleArrayToR_full(int len, const double *x, int copy, int start, int en
 
 #define MIN(a, b)  ((a) < (b) ? (a) : (b))
 
+const char **
+getCharArrayPtr(SEXP r_value)
+{
+    int i;
+    int len;
+    const char **dest;
+    
+    len = Rf_length(r_value);
+
+    if(len == 0)
+	return(NULL);
+
+    dest = (const char **) R_alloc(sizeof(char *), len);
+    if(!dest) {
+	PROBLEM "cannot allocate space for char **"
+        ERROR;
+    }
+    for(i = 0; i < len; i++)
+	dest[i] = CHAR(STRING_ELT(r_value, i));    
+    return(dest);
+}
+
 void
 convertRCharacterToCharArray(char *dest, SEXP r_value, int array_len)
 {
@@ -198,7 +222,7 @@ convertRCharacterToCharArray(char *dest, SEXP r_value, int array_len)
 
     len = MIN(Rf_length(r_value), array_len);
     for(i = 0; i < len; i++)
-	dest[i] = CHAR(STRING_ELT(r_value, i))[0];
+	dest[i] = CHAR(STRING_ELT(r_value, i))[0];//XXX should this [0] be here?
 }
 
 SEXP
@@ -241,7 +265,6 @@ convertCharArrayToR(const char *x, int dim, int start, int end)
 SEXP
 convertCharArrayToR(const char *x, int dim, int start, int end)
 {
-    SEXP ans;
     int num;
     char *buf;
     num = end - start + 1;
@@ -643,4 +666,64 @@ R_bitwise_enum_convert(int val, int *values, const char *const* valNames, int nu
 //XXX create class.
     UNPROTECT(2);
     return(ans);
+}
+
+
+
+
+SEXP
+R_makeEnumValue(int val, const char *elName, const char *className)
+{
+    SEXP ans, klass;
+    #if defined(USE_S4_ENUMS)
+    
+    SEXP tmp;
+    PROTECT(klass = MAKE_CLASS(className));
+    PROTECT(ans = NEW(klass));
+    PROTECT(tmp = ScalarInteger(val));
+    SET_NAMES(tmp, mkString(elName));
+    ans = SET_SLOT(ans, Rf_install(".Data"), tmp);
+    UNPROTECT(3);
+    
+    #else
+    
+    PROTECT(ans = ScalarInteger(val));
+    SET_NAMES(ans, mkString(elName));
+    PROTECT(klass = NEW_CHARACTER(2));
+    SET_STRING_ELT(klass, 0, mkChar(className));
+    SET_STRING_ELT(klass, 1, mkChar("EnumValue"));
+    SET_CLASS(ans, klass);
+    UNPROTECT(2);
+    
+    #endif
+    
+    return(ans);
+}
+
+
+#ifndef LOCAL_CREATE_REF
+SEXP
+R_createReference(void *ptr, const char * const className, const char * tag)
+{
+    SEXP ans, klass;
+    PROTECT(klass = MAKE_CLASS(className));
+    PROTECT(ans = NEW_OBJECT(klass));
+    if(!tag)
+        tag = className;
+    SET_SLOT(ans, Rf_install("ref"), R_MakeExternalPtr(ptr, Rf_install(tag), R_NilValue));
+    UNPROTECT(2);
+    return(ans);
+}
+#endif
+
+
+void 
+copyRVectorToDoubleArray(SEXP r_vec, double *dest, int numEls)
+{
+    int i;
+    int num = MIN(numEls, Rf_length(r_vec));
+    double *els = REAL(r_vec);
+
+    for(i = 0 ; i < num; i++)
+	dest[i] = els[i];
 }
