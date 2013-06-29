@@ -69,6 +69,8 @@ SEXP R_createNativeReference(const void * const val, const char *className, cons
      R_createNativeReference(arg, #class, #class)
 
 
+#define GET_REF(val, type) (type *)  R_getNativeReference((val), #type, #type)
+
 #define DEREF_PTR(x, type)  ((type) R_getNativeReference((x), #type, #type))
 
 #define DEREF_REF(x, type) * ((type *) R_getNativeReference((x), #type, #type))
@@ -126,13 +128,27 @@ SEXP R_duplicateArray(SEXP r_ref, SEXP r_size, SEXP r_elementDup);
 SEXP R_isNativeNull(SEXP ext);
 SEXP R_addressOfPointer(SEXP ext);
 
+void copyRVectorToDoubleArray(SEXP r_vec, double *dest, int numEls);
 
+
+const char **getCharArrayPtr(SEXP r_value);
 SEXP convertDoubleArrayToR(const double *x, int len, int start, int end);
 SEXP convertCharArrayToR(const char *x, int len, int start, int end);
 
 void convertRCharacterToCharArray(char *dest, SEXP r_value, int array_len);
 
 SEXP  createRRoutineReference(void *, const char * const routineName,  const char * const returnTypeName, unsigned int numParams, ...);
+
+
+#ifndef LOCAL_CREATE_REF
+SEXP R_createReference(void *ptr, const char * const className, const char * tag);
+#endif
+
+#ifndef R_createRef
+#define R_createRef(val, type) R_createReference(val, type, type)
+#endif
+
+
 
 #ifdef __cplusplus
 }

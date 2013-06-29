@@ -95,3 +95,7 @@ export(CNULLValue)
 
 
 export(isNilPointer)
+
+
+exportClass("size_t")
+
