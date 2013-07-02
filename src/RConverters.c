@@ -591,7 +591,7 @@ R_addressOfPointer(SEXP ext)
 /* Need to know the tag and the protected for the external pointer. 
 Leave to R code to put in the correct class.
 */
-   void *p = R_ExternalPtrAddr(ext);
+//   void *p = R_ExternalPtrAddr(ext);
 	
    return(R_NilValue);
 }
