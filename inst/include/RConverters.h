@@ -69,7 +69,9 @@ SEXP R_createNativeReference(const void * const val, const char *className, cons
      R_createNativeReference(arg, #class, #class)
 
 
+#ifndef GET_REF
 #define GET_REF(val, type) (type *)  R_getNativeReference((val), #type, #type)
+#endif
 
 #define DEREF_PTR(x, type)  ((type) R_getNativeReference((x), #type, #type))
 
