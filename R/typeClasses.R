@@ -5,6 +5,10 @@ setClass("shortPtr", contains = "RC++Reference")
 setClass("floatPtr", contains = "RC++Reference")
 setClass("voidPtr", contains = "RC++Reference")
 
+setAs("externalptr", "voidPtr", function(from) new("voidPtr", ref = from))
+
+#setClass("void", contains = "voidPtr") # can't have a void so  make void synonomous with voidPtr for simplicity
+
 # setClass("intArray", contains = "ExternalPrimitiveTypeArrayWithLength")
 
 setMethod("[", "doublePtr",
