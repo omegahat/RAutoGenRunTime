@@ -1,7 +1,7 @@
 # EnumValue is typically for individual values.
 # Bitwise can support a vector.
 # These are for values. The definition is separate.
-setClass("SymbolicConstant", representation = c(names = "character"), contains = "integer")
+setClass("SymbolicConstant", representation = list(names = "character"), contains = "integer")
 setClass("EnumValue", contains = "SymbolicConstant", prototype = as.integer(NA))
 setClass("BitwiseValue", contains = "SymbolicConstant", prototype = as.integer(NA))
 
@@ -151,14 +151,15 @@ function(val, values, class = values@EnumName, fromString = NA,
      fromString = is(val, "character")
 
   if(fromString) {
+     val = trim(val)
      i = pmatch(val, names(values))  # allowing pmatch, but should type it explicitly in code.
        # deal with lowercase matches for covenience
      if(is.na(i))
-       i = pmatch(val, tolower(names(values)))
+       i = pmatch(tolower(val), tolower(names(values)))
 
        # and if still not there, remove the prefix.
      if(is.na(i) && length(prefix))
-       i = pmatch(val, tolower(gsub(paste("^", prefix, sep = ""), "",  names(values))))
+       i = pmatch(tolower(val), tolower(gsub(paste("^", prefix, sep = ""), "",  names(values))))
   } else
      i = match(val, values)
 
@@ -176,6 +177,10 @@ function(val, values, class = values@EnumName, fromString = NA,
   }
   ans
 }  
+
+trim =
+function (x) 
+   gsub("(^[[:space:]]+|[[:space:]]+$)", "", x)    
 
 
 GenericEnumValue =
