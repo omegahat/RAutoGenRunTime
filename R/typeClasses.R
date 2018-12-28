@@ -6,6 +6,8 @@ setClass("floatPtr", contains = "RC++Reference")
 setClass("voidPtr", contains = "RC++Reference")
 
 
+#setClass("void", contains = "voidPtr") # can't have a void so  make void synonomous with voidPtr for simplicity
+
 setAs("externalptr", "voidPtr",
        function(from)
           new("voidPtr", ref = from))
@@ -21,6 +23,7 @@ setAs("externalptr", "doublePtr",
 setAs("externalptr", "intPtr",
        function(from)
           new("intPtr", ref = from))
+
 
 
 

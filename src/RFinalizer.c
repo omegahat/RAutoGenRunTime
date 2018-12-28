@@ -10,10 +10,10 @@ R_RCppReference_addFinalizer(SEXP r_obj, SEXP finalizer)
  
     SEXP obj = r_obj;
 
-    if(!TYPEOF(obj) == EXTPTRSXP) 
+    if(TYPEOF(obj) != EXTPTRSXP) 
 	obj = GET_SLOT(r_obj, Rf_install("ref"));
 
-    if(!TYPEOF(obj) == EXTPTRSXP)  {
+    if(TYPEOF(obj) != EXTPTRSXP)  {
 	PROBLEM "addFinalizer must be given an external pointer or an RC++Reference with a slot containing an external ptr"
 	    ERROR;
     }
