@@ -432,7 +432,7 @@ typedef struct {
 SEXP
 R_listToRefArray(SEXP r_els, SEXP r_type)
 {
-    const char *type;
+    const char *type = NULL; /* XXX */
     SEXP el;
     int i, n;
     void *tmp;
