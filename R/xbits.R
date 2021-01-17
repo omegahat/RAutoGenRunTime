@@ -24,7 +24,7 @@ function(val, defValues, className, prefix = NA)
   }
 
   if(any(is.na(i)))
-    stop("unmatched name(s) ", val[is.na(i)])
+    stop("unmatched name(s) ", paste(val[is.na(i)], collapse = ", "))
 
   value = bitlist(defValues[i])
 
