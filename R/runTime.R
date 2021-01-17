@@ -122,8 +122,10 @@ setGeneric("ArrayAccessorElementRoutine",
 
 # need the value of "to" in the function call at run-time.
 setAs("VariableReference", "ANY",
-      function(from, to)
-         valueOf(from))
+      function(from, to) {
+         valueOf(from)
+       })
+
 
 setMethod("asReference", "VariableReference",
           function(x, type) {
