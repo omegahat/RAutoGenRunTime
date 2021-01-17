@@ -41,7 +41,7 @@ function(obj, recursive)
 
 
 if(TRUE || !isGeneric("addFinalizer"))
-  setGeneric("addFinalizer", function(obj, finalizer, default = character()) standardGeneric("addFinalizer"))
+  setGeneric("addFinalizer", function(obj, finalizer, default = character(), ...) standardGeneric("addFinalizer"))
 
 
 setMethod("addFinalizer", c("RC++Reference", "character"),
