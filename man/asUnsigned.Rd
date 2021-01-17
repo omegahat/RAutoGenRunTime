@@ -1,5 +1,11 @@
 \name{asUnsigned}
 \alias{asUnsigned}
+%XXX Move
+\alias{size_t-class}
+\alias{coerce,integer,size_t-method}
+\alias{coerce,numeric,size_t-method}
+
+
 \title{Convert a vector to unsigned (positive) values}
 \description{
   This function is used as a check on numeric values

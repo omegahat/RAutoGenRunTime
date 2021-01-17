@@ -1,6 +1,10 @@
 useDynLib(RAutoGenRunTime)
 import(bitops)
 
+importFrom("methods", "as", "as<-", "callNextMethod", "extends",
+           "getClass", "getClassDef", "getSlots", "is", "isGeneric",
+           "new", "selectMethod", "show", "slot", "slot<-", "coerce")
+
 
 exportClass("RNativeReference",  "RCReference", "RC++Reference",
              "RC++ReferenceUseName", "RC++StructReference", "RCStructReference")
@@ -48,6 +52,7 @@ exportClass('C++Cast')
 export(bitlist)
 
 export(BitwiseValue)
+export("|", "c", "&")
 exportMethods("|", "c", "&")
 export(makeSymbolicVariables)
 export(EnumDef)

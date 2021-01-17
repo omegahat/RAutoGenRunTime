@@ -2,8 +2,7 @@ Package: RAutoGenRunTime
 Version: 0.3-0
 Title: Run-time support for automated interfaces to R
 Author: Duncan Temple Lang
-Depends: bitops, methods
-Imports: bitops
+Imports: bitops, methods
 Maintainer: Duncan Temple Lang <duncan@wald.ucdavis.edu>
 Description: The package provides classes, methods, functions and 
   compiled C code used by automatically generated interfaces 
@@ -17,5 +16,5 @@ Description: The package provides classes, methods, functions and
   This package, however, is used at run-time. So we don't need the RGCCTranslationUnit
   package at that moment in time, but do need the functions that programmatically code
   refers to.
-License: BSD
-URL: http://www.omegahat.org/RAutoGenRunTime
+License: BSD_3_clause + file LICENSE
+URL: http://www.omegahat.net/RAutoGenRunTime

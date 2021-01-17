@@ -12,6 +12,13 @@
 \alias{[<-,doublePtr,ANY,ANY-method}
 \alias{[<-,doublePtr,ANY-method}
 
+\alias{coerce,externalptr,voidPtr-method}
+\alias{coerce,externalptr,character-method}
+\alias{coerce,externalptr,doublePtr-method}
+\alias{coerce,externalptr,floatPtr-method}
+\alias{coerce,externalptr,intPtr-method}
+\alias{coerce,RCReference,character-method}
+
 \title{Representations of references to fundamental C/C++ data types}
 \description{
  These classes provide references to C/C++ data types such as int,

@@ -1,6 +1,7 @@
 \name{RC++Reference-class}
 \docType{class}
 \alias{RNativeReference-class}
+\alias{NativeSymbol-class}
 \alias{RNativeRoutineReference-class}
 \alias{RCReference-class}
 \alias{RC++Reference-class}

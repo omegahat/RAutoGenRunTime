@@ -13,6 +13,9 @@
 %\alias{show,EnumDef-method}
 \alias{[,EnumDef,ANY,ANY-method}
 
+\alias{&}
+\alias{|}
+\alias{c}
 \alias{&,BitwiseValue,BitwiseValue-method}
 \alias{|,BitwiseValue,BitwiseValue-method}
 \alias{c,BitwiseValue-method}

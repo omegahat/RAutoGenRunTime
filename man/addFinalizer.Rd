@@ -9,7 +9,7 @@
   with this object.
 }
 \usage{
-addFinalizer(obj, finalizer, default = character())
+addFinalizer(obj, finalizer, default = character(), ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -19,6 +19,7 @@ addFinalizer(obj, finalizer, default = character())
   of the routine to invoke, a NativeSymbolInfo object identifying the
   routine, or the address of the routine. See \code{getNativeSymbolInfo}}
   \item{default}{the finalizer object}
+ \item{\dots}{additional arguments passed to methods}
 }
 
 \value{
