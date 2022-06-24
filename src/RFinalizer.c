@@ -1,6 +1,8 @@
 #include <Rinternals.h>
 #include <Rdefines.h>
 
+#include "RConverters.h"
+
 #ifdef __cplusplus
 extern "C"
 #endif
