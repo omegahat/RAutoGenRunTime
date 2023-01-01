@@ -142,8 +142,12 @@ function(val, values, class = values@EnumName, fromString = NA,
        return(bitlist(tmp))
     if(S3)
       class(tmp) = c(class, "EnumValue")
-    else
-      tmp = as(tmp, class)
+    else {
+        # The following would be infinite recursion as we use setAs() to call asEnumValue().
+        # tmp = as(tmp, class)
+        new(class, tmp)
+    }
+    
     return(tmp)
   }
   
